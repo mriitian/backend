@@ -10,9 +10,29 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth import authenticate, login, logout
 from . tokens import generate_token
+from django.middleware.csrf import get_token
+from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.utils.encoding import force_str, force_bytes
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+from django.contrib import messages
+from django.contrib.auth import login
+from .tokens import generate_token
+
+
+def get_csrf_token(request):
+    return get_token(request)
+
 # Create your views here.
 def home(request):
     return render(request, "authentication/index.html")
+
+@csrf_exempt
 def signup(request):
     if request.method=="POST" :
         #username= request.POST.get['username']
@@ -24,7 +44,7 @@ def signup(request):
         pass2 = request.POST['pass2']
         
         if User.objects.filter(username= username):
-            message.error(request, "Username already exists! Pleasetry some other usrename")
+            messages.error(request, "Username already exists! Pleasetry some other usrename")
             return redirect('home')
         
         if User.objects.filter(email=email):
@@ -84,6 +104,8 @@ def signup(request):
         
         
     return render(request, "authentication/signup.html")
+
+@csrf_exempt
 def signin(request):
     if request.method =='POST':
         username= request.POST['username']
@@ -101,22 +123,26 @@ def signin(request):
             messages.error(request, "Bad credentials")
             return redirect('home')
     return render(request, "authentication/signin.html")
+
+@csrf_exempt
 def signout(request):
     logout(request)
-    messages.succedd(request, "Logged Out Successfully!")
+    messages.success(request, "Logged Out Successfully!")
     return redirect('home')
 
+@csrf_exempt
 def activate(request, uidb64, token):
     try:
-        uid= force_str(urlsafe_base64_decode(uidb64))
+        uid = force_str(urlsafe_base64_decode(uidb64))
         myuser = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         myuser = None
         
     if myuser is not None and generate_token.check_token(myuser, token):
-        myuser.is_activate= True
+        myuser.is_active = True
         myuser.save()
         login(request, myuser)
+        messages.success(request, 'Your account has been activated successfully!')
         return redirect('home')
     else:
         return render(request, 'activation_failed.html')
