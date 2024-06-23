@@ -15,7 +15,7 @@ from .info import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_USE_TLS = EMAIL_USE_TLS
 EMAIL_HOST=EMAIL_HOST
 EMAIL_HOST_USER=EMAIL_HOST_USER
@@ -42,7 +42,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+    # Add other origins as needed
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -81,8 +88,12 @@ WSGI_APPLICATION = 'gfg.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'caFirm',
+        'USER': 'postgres',
+        'PASSWORD': 'AshPika18',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
