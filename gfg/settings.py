@@ -15,7 +15,7 @@ from .info import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 EMAIL_USE_TLS = EMAIL_USE_TLS
 EMAIL_HOST=EMAIL_HOST
 EMAIL_HOST_USER=EMAIL_HOST_USER
@@ -35,6 +35,12 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+# Optionally, allow all headers and methods (adjust as per your needs)
+CORS_ALLOW_ALL_ORIGINS = True  # Set to True to allow all origins
+
+# Add a default CORS configuration
+CORS_ALLOW_CREDENTIALS = True
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,23 +49,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'authentication',
 ]
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
+    'https://ca-firm-three.vercel.app'
     # Add other origins as needed
 ]
 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'gfg.urls'
@@ -92,8 +100,8 @@ DATABASES = {
         'NAME': 'caFirm',
         'USER': 'postgres',
         'PASSWORD': 'AshPika18',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'HOST': 'localhost',  # Set to your database host, e.g., 'localhost' or a remote database IP
+        'PORT': '5432',       # Set to your database port, usually 5432
     }
 }
 
