@@ -11,4 +11,5 @@ urlpatterns = [
     path('book_appointment', views.book_appointment, name='book_appointment'),
     path('get_user_appointments/<str:username>/', views.get_user_appointments, name='get_user_appointments'),
     path('get_available_slots/', views.get_available_slots, name='get_available_slots'),
+    path('get-all-users/', views.get_all_users, name='get_all_users'),
 ]

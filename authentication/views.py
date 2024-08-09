@@ -208,3 +208,18 @@ def get_available_slots(request):
         return JsonResponse({'available_slots': available_slots}, status=200)
 
     return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+@csrf_exempt
+def get_all_users(request):
+    if request.method == 'GET':
+        users = User.objects.all()
+        users_data = [{
+            'username': user.username,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email
+        } for user in users]
+        return JsonResponse({'users': users_data}, status=200)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
