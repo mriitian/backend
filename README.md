@@ -9,9 +9,6 @@ This project is a Django application designed to [describe your project's purpos
 - [Database Setup](#database-setup)
 - [Environment Variables](#environment-variables)
 - [Running the Project](#running-the-project)
-- [Running Tests](#running-tests)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Prerequisites
 
