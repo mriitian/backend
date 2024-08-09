@@ -25,12 +25,12 @@ Before you begin, ensure you have met the following requirements:
 Clone the project repository from GitHub to your local machine using the following command:
 
 ```bash
-git clone https://github.com/your-username/your-repository-name.git
+git clone https://github.com/mriitian/backend.git
 ```
 ### 2. Navigate to the project directory
 
 ```bash
-cd your-repository-name
+cd backend
 ```
 
 ### 3. Create virtual environment
